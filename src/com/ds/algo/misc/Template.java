@@ -1,13 +1,9 @@
-package com.ds.algo;
+package com.ds.algo.misc;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.HashSet;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class A {
+public class Template {
   static PrintWriter out = new PrintWriter((System.out));
 
   public static void main(String[] args) throws IOException {
@@ -20,16 +16,20 @@ public class A {
   }
 
   public static void solve(Reader rc) {
+    String str1 = new String("hello");
+    String str4 = new String("hello");
+    String str = "hello";
+    String str2 = "hello";
+    char[] strNew = str.toCharArray();
+    strNew[0] = 'a';
 
-    HashSet<Long> set = new HashSet<>();
-
-    set.add(1l);
-    set.add(2l);
-    set.add(3l);
-    set.add(4l);
-    set.add(5l);
-
-    if (set.contains(6l)) System.out.println("is it true?");
+    System.out.println(str.hashCode());
+    System.out.println(str1.hashCode());
+    System.out.println(str2.hashCode());
+    System.out.println(str4.hashCode());
+    System.out.println(strNew.toString().hashCode());
+    System.out.println(str == str2);
+    System.out.println(str4 == str1);
   }
 
   static class Reader {

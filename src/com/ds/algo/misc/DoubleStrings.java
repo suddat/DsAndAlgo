@@ -1,4 +1,4 @@
-package com.ds.algo;
+package com.ds.algo.misc;
 
 import java.io.BufferedReader;
 import java.io.IOException;

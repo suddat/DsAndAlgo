@@ -1,9 +1,13 @@
-package com.ds.algo;
+package com.ds.algo.misc;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Template {
+public class QuickSort {
   static PrintWriter out = new PrintWriter((System.out));
 
   public static void main(String[] args) throws IOException {
@@ -16,20 +20,51 @@ public class Template {
   }
 
   public static void solve(Reader rc) {
-    String str1 = new String("hello");
-    String str4 = new String("hello");
-    String str = "hello";
-    String str2 = "hello";
-    char[] strNew = str.toCharArray();
-    strNew[0] = 'a';
+    int [] arr = new int[rc.nextInt()];
+    for(int i = 0; i < arr.length; i++){
+      arr[i] = rc.nextInt();
+    }
 
-    System.out.println(str.hashCode());
-    System.out.println(str1.hashCode());
-    System.out.println(str2.hashCode());
-    System.out.println(str4.hashCode());
-    System.out.println(strNew.toString().hashCode());
-    System.out.println(str == str2);
-    System.out.println(str4 == str1);
+    quickSort(arr, 0, arr.length);
+
+    for (int i : arr) {
+      System.out.print(i + " ");
+    }
+  }
+
+  private static void quickSort(int[] arr, int low, int high) {
+    if(low < high){
+      int piv = partition(arr, low , high);
+
+      quickSort(arr, low, piv-1);
+      quickSort(arr, piv+1, high);
+    }
+
+  }
+
+  private static int partition(int[] arr, int low, int high) {
+
+    //set i to previous index
+    int i = low-1;
+    //set last index as pivot
+    int piv = arr[high-1];
+
+    //loop through current low to current high
+    for(int j = low; j <= high-1; j++){
+      //if curr val in loop is less than pivot than increment i and swap.
+      if(arr[j] < piv){
+        i++;
+        swap(arr, i, j);
+      }
+    }
+    swap(arr, i+1, high-1);
+    return (i+1);
+  }
+
+  private static void swap(int[] arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
   }
 
   static class Reader {
