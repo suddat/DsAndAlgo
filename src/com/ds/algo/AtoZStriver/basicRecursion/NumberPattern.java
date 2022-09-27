@@ -1,6 +1,5 @@
 package com.ds.algo.AtoZStriver.basicRecursion;
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -9,7 +8,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PrintNumbers {
+public class NumberPattern {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -22,22 +21,18 @@ public class PrintNumbers {
     }
 
     public static void solve(FastReader rc) {
-        int n = 10;
-
-        BigDecimal a = new BigDecimal("9000");
-        BigDecimal b = new BigDecimal("10000");
-        System.out.println(a.compareTo(b));
-        //printRecursion(n);
+        int n = rc.nextInt();
+        printPattern(n, n);
     }
 
-    private static void printRecursion(int n) {
-        if(n == 0){
-            return;
+    private static void printPattern(int n, int s) {
+        if(s <= 0){
+            System.out.print(s+" ");
+            return ;
         }
-        System.out.print(n + " ");// if from N to 1
-        printRecursion(n-1);
-        //System.out.println();
-        //System.out.print(n + " ");// if from 1 to N
+        System.out.print(s + " ");
+        printPattern(n,s-5);
+        System.out.print(s + " ");
     }
 
     private static void swap(int p1, int p2, int[] arr) {

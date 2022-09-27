@@ -1,6 +1,5 @@
 package com.ds.algo.AtoZStriver.basicRecursion;
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -9,7 +8,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PrintNumbers {
+public class SumOfSubsets {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -22,22 +21,22 @@ public class PrintNumbers {
     }
 
     public static void solve(FastReader rc) {
-        int n = 10;
-
-        BigDecimal a = new BigDecimal("9000");
-        BigDecimal b = new BigDecimal("10000");
-        System.out.println(a.compareTo(b));
-        //printRecursion(n);
+        int[] arr = {5,2,1};
+        List<Integer> ans = new ArrayList<>();
+        helper(arr, arr.length, 0, ans, 0);
+        Collections.sort(ans);
+        System.out.println(ans);
     }
 
-    private static void printRecursion(int n) {
-        if(n == 0){
+    private static void helper(int[] arr, int n, int ind, List<Integer> ans, int sum) {
+        if(ind == n){
+            ans.add(sum);
             return;
         }
-        System.out.print(n + " ");// if from N to 1
-        printRecursion(n-1);
-        //System.out.println();
-        //System.out.print(n + " ");// if from 1 to N
+        //include
+        helper(arr,n,ind+1,ans, sum+arr[ind]);
+        //exclude
+        helper(arr,n,ind+1,ans, sum);
     }
 
     private static void swap(int p1, int p2, int[] arr) {

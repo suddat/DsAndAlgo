@@ -1,6 +1,5 @@
 package com.ds.algo.AtoZStriver.basicRecursion;
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -9,7 +8,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PrintNumbers {
+public class StringPermutations {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -22,22 +21,25 @@ public class PrintNumbers {
     }
 
     public static void solve(FastReader rc) {
-        int n = 10;
-
-        BigDecimal a = new BigDecimal("9000");
-        BigDecimal b = new BigDecimal("10000");
-        System.out.println(a.compareTo(b));
-        //printRecursion(n);
+        int[] arr = {1,2,3};
+        List<List<Integer>> ans = new ArrayList<>();
+        helper(arr, arr.length,0, ans, new ArrayList<>());
+        System.out.println(ans);
     }
 
-    private static void printRecursion(int n) {
-        if(n == 0){
+    private static void helper(int[] arr, int n, int ind, List<List<Integer>> ans, List<Integer> curr){
+        if(ind == n){
+            ans.add(new ArrayList<>(curr));
             return;
         }
-        System.out.print(n + " ");// if from N to 1
-        printRecursion(n-1);
-        //System.out.println();
-        //System.out.print(n + " ");// if from 1 to N
+
+        for(int i = ind; i< n; i++){
+            swap(i, ind, arr);
+            curr.add(arr[ind]);
+            helper(arr, n, ind+1, ans, curr);
+            curr.remove(curr.size()-1);
+            swap(i, ind, arr);
+        }
     }
 
     private static void swap(int p1, int p2, int[] arr) {

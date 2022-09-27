@@ -1,6 +1,5 @@
-package com.ds.algo.AtoZStriver.basicRecursion;
+package com.ds.algo.binarysearch.medium;
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -9,7 +8,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PrintNumbers {
+public class FindBitonicPoint {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -22,22 +21,29 @@ public class PrintNumbers {
     }
 
     public static void solve(FastReader rc) {
-        int n = 10;
-
-        BigDecimal a = new BigDecimal("9000");
-        BigDecimal b = new BigDecimal("10000");
-        System.out.println(a.compareTo(b));
-        //printRecursion(n);
+        int[] nums = {9,10,10};
+        System.out.println(findBitonic(nums));
     }
 
-    private static void printRecursion(int n) {
-        if(n == 0){
-            return;
+    private static int findBitonic(int[] nums) {
+        int n = nums.length;
+        int l =0, r=n-1;
+        while (l<=r){
+            int mid = l + (r-l)/2;
+            if(
+                    (mid==0 || nums[mid] > nums[mid-1])
+                    &&
+                    (mid==n-1 || nums[mid] > nums[mid+1])
+            ){
+                return nums[mid];
+            }
+            if(mid==0 || nums[mid-1] < nums[mid]){
+                l = mid+1;
+            }else{
+                r = mid-1;
+            }
         }
-        System.out.print(n + " ");// if from N to 1
-        printRecursion(n-1);
-        //System.out.println();
-        //System.out.print(n + " ");// if from 1 to N
+        return -1;
     }
 
     private static void swap(int p1, int p2, int[] arr) {

@@ -1,6 +1,5 @@
 package com.ds.algo.AtoZStriver.basicRecursion;
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -9,7 +8,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PrintNumbers {
+public class GenerateParantheses {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -22,23 +21,27 @@ public class PrintNumbers {
     }
 
     public static void solve(FastReader rc) {
-        int n = 10;
+        List<String> ans = new ArrayList<>();
+        int n = rc.nextInt();
 
-        BigDecimal a = new BigDecimal("9000");
-        BigDecimal b = new BigDecimal("10000");
-        System.out.println(a.compareTo(b));
-        //printRecursion(n);
+        helper(0, 0, n, ans, "");
+        System.out.println(ans);
     }
 
-    private static void printRecursion(int n) {
-        if(n == 0){
+
+    private static void helper(int close, int open, int n, List<String> ans, String curr) {
+        if(close == n && open ==n){
+            ans.add(curr);
             return;
         }
-        System.out.print(n + " ");// if from N to 1
-        printRecursion(n-1);
-        //System.out.println();
-        //System.out.print(n + " ");// if from 1 to N
-    }
+        //add open
+        if(open < n)
+            helper(close, open+1,n, ans, curr+"(");
+
+        // add closed
+        if(open > close)
+            helper(close+1, open,n, ans, curr+")");
+}
 
     private static void swap(int p1, int p2, int[] arr) {
         int t = arr[p1];

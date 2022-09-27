@@ -1,6 +1,6 @@
 package com.ds.algo.AtoZStriver.basicRecursion;
+
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -9,7 +9,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PrintNumbers {
+public class PowerSetRecursion {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -22,23 +22,27 @@ public class PrintNumbers {
     }
 
     public static void solve(FastReader rc) {
-        int n = 10;
-
-        BigDecimal a = new BigDecimal("9000");
-        BigDecimal b = new BigDecimal("10000");
-        System.out.println(a.compareTo(b));
-        //printRecursion(n);
+        String arr = "abc";
+        List<String> ans = new ArrayList<>();
+        findAllSubsequences(arr, arr.length(), 0,ans,"");
+        Collections.sort(ans);
+        ans.remove(0);
+        System.out.println(ans);
     }
 
-    private static void printRecursion(int n) {
-        if(n == 0){
+    private static void findAllSubsequences(String arr, int n, int ind, List<String> ans, String curr) {
+        //base condition
+        if(ind >= n){
+            ans.add(curr);
             return;
         }
-        System.out.print(n + " ");// if from N to 1
-        printRecursion(n-1);
-        //System.out.println();
-        //System.out.print(n + " ");// if from 1 to N
+        //include
+        findAllSubsequences(arr, n, ind+1, ans, curr+arr.charAt(ind));
+
+        //exlcude
+        findAllSubsequences(arr,n, ind+1, ans, curr);
     }
+
 
     private static void swap(int p1, int p2, int[] arr) {
         int t = arr[p1];
