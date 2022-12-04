@@ -1,8 +1,5 @@
-package com.ds.algo.misc;
+package com.ds.algo.graph.medium;
 import java.io.*;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -11,7 +8,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PracticeJava {
+public class DetectCycleDFS {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -24,36 +21,61 @@ public class PracticeJava {
     }
 
     public static void solve(FastReader rc) {
-        //LocalDate dob = LocalDate.of(1967, 11, 23);
-        LocalDate dob = LocalDate.of(2001, 11, 24);
-        Period p = Period.between(dob, LocalDate.now());
-        System.out.println("p -> " +p.toString());
-        System.out.println("years -> " +p.getYears());
-        System.out.println("months -> " + p.getMonths());
-        System.out.println("days -> " + p.getDays());
-        int age = p.getYears();
-        if(age < 21 || age > 55){
-            System.out.println("not valid age");
-        }
-        if(age == 55 && (p.getMonths() > 0 || p.getDays() > 0)) {
-            System.out.println("not valid");
-        }
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        /*adj.add(new ArrayList<>(Arrays.asList(1)));
+        adj.add(new ArrayList<>(Arrays.asList(0, 2, 4)));
+        adj.add(new ArrayList<>(Arrays.asList(1, 3)));
+        adj.add(new ArrayList<>(Arrays.asList(2, 4)));
+        adj.add(new ArrayList<>(Arrays.asList(1, 3)));*/
+
+        adj.add(new ArrayList<>(Arrays.asList()));
+        adj.add(new ArrayList<>(Arrays.asList(2)));
+        adj.add(new ArrayList<>(Arrays.asList(1,3)));
+        adj.add(new ArrayList<>(Arrays.asList(2)));
+
+        boolean cycle = isCycle(4, adj);
+        System.out.println(cycle);
     }
 
-    public static boolean isDoubleEqual(Double first, Double second){
-        if(first == null && second == null) return true;
-        if(first == null || second == null) return false;
+    private static boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        boolean[] vis = new boolean[V];
+        for(int i =0 ; i< V ;i++){
+            vis[i] = false;
+        }
+        for(int i =0 ; i < V ;i++){
+            if(!vis[i]){
+                if(checkDfsCycle(i, -1, adj, vis)) return true;
+            }
+        }
+        return false;
+    }
 
-        DecimalFormat df = new DecimalFormat("#.##");
-        first = Double.valueOf(df.format(Double.valueOf(first)));
-        second = Double.valueOf(df.format(Double.valueOf(second)));
-        return first.compareTo(second)==0? true : false;
+    private static boolean checkDfsCycle(int node, int parent, ArrayList<ArrayList<Integer>> adj, boolean[] vis) {
+        vis[node] = true;
+
+        for(Integer adjNode: adj.get(node)){
+            if(!vis[adjNode]){
+                if(checkDfsCycle(adjNode, node, adj, vis)) return true;
+            }else if(adjNode != parent){
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void swap(int p1, int p2, int[] arr) {
         int t = arr[p1];
         arr[p1] = arr[p2];
         arr[p2] = t;
+    }
+
+    private static void print2DArray(int[][] arr){
+        for (int[] a : arr){
+            for (int i : a){
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
     }
 
     static class FastReader {

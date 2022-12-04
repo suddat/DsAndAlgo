@@ -39,6 +39,15 @@ public class RottenOranges {
         System.out.println(rottenOranges(grid, n, m, delRow, delCol));
     }
 
+    /***
+     * It has to be <b>BFS</b> as we want time for all the oranges will simultaneously rot
+     * @param grid
+     * @param n
+     * @param m
+     * @param delRow
+     * @param delCol
+     * @return
+     */
     private static int rottenOranges(int[][] grid, int n, int m, int[] delRow, int[] delCol) {
         int[][] vis = new int[n][m];
         int cntFresh=0;
@@ -63,10 +72,10 @@ public class RottenOranges {
             int time = q.peek().time;
             tm = Math.max(tm, time);
             q.remove();
-            for(int i = 0 ; i< 4 ; i++){
+            for(int i = 0 ; i < 4 ; i++){
                 int nrow = delRow[i] + row;
                 int ncol = delCol[i] + col;
-                if(nrow >=0 && nrow < n && ncol >= 0 && ncol < n &&
+                if(nrow >=0 && nrow < n && ncol >= 0 && ncol < m &&
                     vis[nrow][ncol] == 0 && grid[nrow][ncol] == 1
                 ){
                     q.add(new PairTime(nrow, ncol, time+1));

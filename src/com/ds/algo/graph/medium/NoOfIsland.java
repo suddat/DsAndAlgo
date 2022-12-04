@@ -7,7 +7,6 @@ import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.System.in;
-import static java.lang.System.out;
 
 class Pair{
     int first;

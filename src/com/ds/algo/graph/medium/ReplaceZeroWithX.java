@@ -1,8 +1,5 @@
-package com.ds.algo.misc;
+package com.ds.algo.graph.medium;
 import java.io.*;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -11,7 +8,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PracticeJava {
+public class ReplaceZeroWithX {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -24,36 +21,99 @@ public class PracticeJava {
     }
 
     public static void solve(FastReader rc) {
-        //LocalDate dob = LocalDate.of(1967, 11, 23);
-        LocalDate dob = LocalDate.of(2001, 11, 24);
-        Period p = Period.between(dob, LocalDate.now());
-        System.out.println("p -> " +p.toString());
-        System.out.println("years -> " +p.getYears());
-        System.out.println("months -> " + p.getMonths());
-        System.out.println("days -> " + p.getDays());
-        int age = p.getYears();
-        if(age < 21 || age > 55){
-            System.out.println("not valid age");
-        }
-        if(age == 55 && (p.getMonths() > 0 || p.getDays() > 0)) {
-            System.out.println("not valid");
-        }
+        /*char[][] mat = {
+                {'X', 'X', 'X', 'X'},
+                {'X', 'O', 'X', 'X'},
+                {'X', 'O', 'O', 'X'},
+                {'X', 'O', 'X', 'X'},
+                {'X', 'X', 'O', 'O'}};*/
+        char[][] mat = {
+                {'X','X','X','X','X'},
+                {'O','X','X','X','O'},
+                {'O','X','X','O','X'},
+                {'X','X','X','O','O'}};
+        int n = mat.length;
+        int m = mat[0].length;
+
+        print2DChar(fill(n, m, mat));
     }
 
-    public static boolean isDoubleEqual(Double first, Double second){
-        if(first == null && second == null) return true;
-        if(first == null || second == null) return false;
+    private static char[][] fill(int n, int m, char mat[][])
+    {
+        int[][] vis = new int[n][m];
 
-        DecimalFormat df = new DecimalFormat("#.##");
-        first = Double.valueOf(df.format(Double.valueOf(first)));
-        second = Double.valueOf(df.format(Double.valueOf(second)));
-        return first.compareTo(second)==0? true : false;
+        for(int j = 0; j < m ; j++){
+            if(mat[0][j] == 'O' && vis[0][j] == 0){
+                dfs(0, j, vis, mat, n, m);
+            }
+            if(mat[n-1][j] == 'O' && vis[n-1][j] == 0){
+                dfs(n-1, j, vis, mat, n, m);
+            }
+        }
+
+
+        for(int i = 0; i < n ;i++){
+            if(mat[i][0] == 'O' && vis[i][0] == 0){
+                dfs(i, 0, vis, mat, n, m);
+            }
+            if(mat[i][m-1] == 'O' && vis[i][m-1] == 0){
+                dfs(i, m-1, vis, mat, n, m);
+            }
+        }
+
+        for(int i =0 ; i< n ;i++){
+            for(int j = 0; j < m ;j++){
+                if(mat[i][j] == 'O' && vis[i][j] == 0){
+                    mat[i][j] = 'X';
+                }
+            }
+        }
+
+        return mat;
+    }
+
+    private static void dfs(int row, int col, int[][] vis, char[][] mat, int n, int m) {
+        vis[row][col] = 1;
+
+        int[] delRow = {0, -1, 0, 1};
+        int[] delCol = {-1, 0, 1, 0};
+
+        for(int i = 0 ; i < 4; i++){
+            int nrow = delRow[i]+ row;
+            int ncol = delCol[i]+ col;
+
+            if(nrow>=0 && nrow <n &&
+               ncol>=0 && ncol <m &&
+               mat[nrow][ncol] == 'O' &&
+               vis[nrow][ncol] != 1
+            ){
+                dfs(nrow, ncol, vis, mat, n, m);
+            }
+        }
     }
 
     private static void swap(int p1, int p2, int[] arr) {
         int t = arr[p1];
         arr[p1] = arr[p2];
         arr[p2] = t;
+    }
+
+    private static void print2DArray(int[][] arr){
+        for (int[] a : arr){
+            for (int i : a){
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    private static void print2DChar(char[][] arr){
+        for (char[] a : arr){
+            for (char i : a){
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
     }
 
     static class FastReader {

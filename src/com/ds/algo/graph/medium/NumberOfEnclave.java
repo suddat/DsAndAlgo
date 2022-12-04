@@ -1,8 +1,5 @@
-package com.ds.algo.misc;
+package com.ds.algo.graph.medium;
 import java.io.*;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.*;
 
 import static java.lang.Double.parseDouble;
@@ -11,7 +8,7 @@ import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 import static java.lang.System.out;
 
-public class PracticeJava {
+public class NumberOfEnclave {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -24,36 +21,97 @@ public class PracticeJava {
     }
 
     public static void solve(FastReader rc) {
-        //LocalDate dob = LocalDate.of(1967, 11, 23);
-        LocalDate dob = LocalDate.of(2001, 11, 24);
-        Period p = Period.between(dob, LocalDate.now());
-        System.out.println("p -> " +p.toString());
-        System.out.println("years -> " +p.getYears());
-        System.out.println("months -> " + p.getMonths());
-        System.out.println("days -> " + p.getDays());
-        int age = p.getYears();
-        if(age < 21 || age > 55){
-            System.out.println("not valid age");
-        }
-        if(age == 55 && (p.getMonths() > 0 || p.getDays() > 0)) {
-            System.out.println("not valid");
-        }
+        int[][] grid = {
+                {0, 0, 0, 0},
+                {0, 1, 1, 0},
+                {0, 1, 1, 0},
+                {0, 0, 0, 0}
+        };
+
+        System.out.println(numberOfEnclaves(grid));
     }
 
-    public static boolean isDoubleEqual(Double first, Double second){
-        if(first == null && second == null) return true;
-        if(first == null || second == null) return false;
+    static int numberOfEnclaves(int[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
 
-        DecimalFormat df = new DecimalFormat("#.##");
-        first = Double.valueOf(df.format(Double.valueOf(first)));
-        second = Double.valueOf(df.format(Double.valueOf(second)));
-        return first.compareTo(second)==0? true : false;
+        int steps = 0;
+        int[][] vis = new int[n][m];
+
+        int[] delrow = {0, -1, 0, 1};
+        int[] delcol = {1, 0, -1, 0};
+
+        Queue<Pair> q = new LinkedList<>();
+
+        for(int i = 0 ; i< m ; i++){
+            if(grid[0][i] == 1 && vis[0][i] != 1){
+                vis[0][i] = 1;
+                q.add(new Pair(0, i));
+            }
+
+            if(grid[n-1][i] == 1 && vis[n-1][i] != 1){
+                vis[n-1][i] = 1;
+                q.add(new Pair(n-1, i));
+            }
+        }
+
+        for(int j = 0 ; j< n ; j++){
+            if(grid[j][0] == 1 && vis[j][0] != 1){
+                vis[j][0] = 1;
+                q.add(new Pair(j, 0));
+            }
+
+            if(grid[j][m-1] == 1 && vis[j][m-1] != 1){
+                vis[j][m-1] = 1;
+                q.add(new Pair(j, m-1));
+            }
+        }
+
+        while(!q.isEmpty()){
+            int first = q.peek().first;
+            int second = q.peek().second;
+
+            q.remove();
+
+            for(int i = 0; i < 4; i++){
+                int nrow = delrow[i] + first;
+                int ncol = delcol[i] + second;
+
+                if(nrow >= 0 && nrow < n &&
+                   ncol >= 0 && ncol < m &&
+                   grid[nrow][ncol] == 1 &&
+                   vis[nrow][ncol] != 1
+                ){
+                    vis[nrow][ncol] = 1;
+                    q.add(new Pair(nrow, ncol));
+                }
+            }
+        }
+
+        for(int i =0 ; i < n ; i++){
+            for(int j = 0; j < m; j++){
+                if(grid[i][j] == 1 && vis[i][j] != 1){
+                    steps++;
+                }
+            }
+        }
+
+        return steps;
     }
 
     private static void swap(int p1, int p2, int[] arr) {
         int t = arr[p1];
         arr[p1] = arr[p2];
         arr[p2] = t;
+    }
+
+    private static void print2DArray(int[][] arr){
+        for (int[] a : arr){
+            for (int i : a){
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
     }
 
     static class FastReader {
