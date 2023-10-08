@@ -1,15 +1,14 @@
 package com.ds.algo.AtoZStriver.basicRecursion;
+
 import java.io.*;
-import java.math.BigDecimal;
-import java.util.*;
+import java.util.StringTokenizer;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.System.in;
-import static java.lang.System.out;
 
-public class PrintNumbers {
+public class PrintNumbers1ToN {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -22,28 +21,34 @@ public class PrintNumbers {
     }
 
     public static void solve(FastReader rc) {
-        int n = 10;
-
-        BigDecimal a = new BigDecimal("9000");
-        BigDecimal b = new BigDecimal("10000");
-        System.out.println(a.compareTo(b));
-        //printRecursion(n);
+        int n = rc.nextInt();
+        int[] arr = new int[n];
+        printRecursion(n, arr);
+        printArray(arr);
+        System.out.println();
     }
 
-    private static void printRecursion(int n) {
-        if(n == 0){
+    private static void printRecursion(int n, int[] arr) {
+        if(n <= 0){
             return;
         }
-        System.out.print(n + " ");// if from N to 1
-        printRecursion(n-1);
-        //System.out.println();
-        //System.out.print(n + " ");// if from 1 to N
+        arr[n-1] = n;
+        printRecursion(n-1, arr);
     }
 
     private static void swap(int p1, int p2, int[] arr) {
         int t = arr[p1];
         arr[p1] = arr[p2];
         arr[p2] = t;
+    }
+
+    private static void printArray(int[] arr){
+
+        for (int i : arr){
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
     }
 
     static class FastReader {
