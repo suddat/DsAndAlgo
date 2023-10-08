@@ -6,7 +6,6 @@ import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.System.in;
-import static java.lang.System.out;
 
 public class ReverseArray {
     static PrintWriter out = new PrintWriter((System.out));
@@ -26,21 +25,41 @@ public class ReverseArray {
         for(int i = 0 ;i<n;i++) {
             arr[i] = rc.nextInt();
         }
-        printReverse(arr, n-1);
+
+        reverseArray(arr, n, 0);
+        printArray(arr);
         System.out.println();
     }
 
-    private static void printReverse(int[] arr, int n) {
-        if(n < 0)
+    private static void reverseArray(int[] arr, int n, int i) {
+        if(i >= n/2)
             return;
-        System.out.print(arr[n]+" ");
-        printReverse(arr, n-1);
+        swap(i,n-i-1, arr);
+        reverseArray(arr, n, i+1);
     }
 
     private static void swap(int p1, int p2, int[] arr) {
         int t = arr[p1];
         arr[p1] = arr[p2];
         arr[p2] = t;
+    }
+
+    private static void printArray(int[] arr){
+
+        for (int i : arr){
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+    }
+
+    private static void print2DArray(int[][] arr){
+        for (int[] a : arr){
+            for (int i : a){
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
     }
 
     static class FastReader {
