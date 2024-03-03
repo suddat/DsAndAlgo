@@ -8,7 +8,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 
-public class Removelement27 {
+public class RemoveDuplicates26 {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -21,29 +21,21 @@ public class Removelement27 {
     }
 
     public static void solve(FastReader rc) {
-        int[] nums = {3,2,2,3};
-        int val = 3;
+        int[] nums = {0,0,1,1,1};
         int n = nums.length;
+        int p1 = 0, p2 = 1;
 
-        int start = 0, end = n-1;
-        while(start <= end){
-            if(nums[end] == val){
-                end--;
-            }else if(nums[start] == val){
-                swap(start, end, nums);
-                start++;
-                end--;
+        while(p2 < n){
+            //if p1 == p2 then increment p2 till we find an unmatched
+            if(nums[p1] == nums[p2]){
+                p2++;
             }else{
-                start++;
+                p1++;
+                nums[p1] = nums[p2];
             }
-            if(start == 0)
-                System.out.println(start);
-            // start and end equal to val - decrement end
-            // start equal to val but end is not - swap and decrement end
-            // start is not equal to val but end is equal to val - decrement end
         }
         printArray(nums);
-        System.out.println(start);
+        System.out.println(p1+1);
     }
 
     public void merge(int[] nums1, int m, int[] nums2, int n) {
