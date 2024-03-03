@@ -1,14 +1,18 @@
 package com.ds.algo.list150;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Double.parseDouble;
+import static java.lang.Integer.MIN_VALUE;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 
-public class RemoveDuplicates80 {
+public class MajorityElement169 {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -22,16 +26,28 @@ public class RemoveDuplicates80 {
 
     public static void solve(FastReader rc) {
 //        int[] nums = {1,1,1,2,2,3};
-        int[] nums = {0,1,1,1,1,2,3,3};
+        int[] nums = {2,2,1,1,1,2,2};
         int n = nums.length;
-        int j = 1;
-        for(int i = 1; i < n ; i++){
-            if(j == 1 || nums[i] != nums[j-2]){
-                 nums[j++] = nums[i];
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for(int i = 0 ; i < n ;i++){
+            if(map.containsKey(nums[i])){
+                Integer val = map.get(nums[i]);
+                map.put(nums[i], val+1);
+            }else{
+                map.put(nums[i], 1);
             }
         }
-        printArray(nums);
-        System.out.println(j);
+        AtomicInteger maxK = new AtomicInteger(MIN_VALUE);
+        AtomicInteger maxV = new AtomicInteger(MIN_VALUE);
+        map.forEach((k, v) -> {
+            if(v > maxV.get()){
+                maxK.set(k);
+                maxV.set(v);
+            }
+            System.out.println(k +" - "+ v);
+        });
+        System.out.println(maxK.get());
     }
 
     public void merge(int[] nums1, int m, int[] nums2, int n) {
