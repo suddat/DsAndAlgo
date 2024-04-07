@@ -25,8 +25,8 @@ public class MinSumSubArray209 {
     }
 
     private static int slidingWindow() {
-        int[] nums = {1,2,3,4,5};
-        int target = 11;
+        int[] nums = {2,3,1,2,4,3};
+        int target = 7;
         int n = nums.length;
         int i = 0, j = 0;
         int minSubArrayLength = Integer.MAX_VALUE;
