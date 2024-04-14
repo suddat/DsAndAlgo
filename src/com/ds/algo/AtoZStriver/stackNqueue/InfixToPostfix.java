@@ -1,8 +1,8 @@
-package com.ds.algo.hackerearth;
+package com.ds.algo.AtoZStriver.stackNqueue;
 
 import java.io.*;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 import static java.lang.Double.parseDouble;
@@ -10,7 +10,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.System.in;
 
-public class MinimumLength {
+public class InfixToPostfix {
     static PrintWriter out = new PrintWriter((System.out));
 
     public static void main(String[] args) throws IOException {
@@ -23,14 +23,7 @@ public class MinimumLength {
     }
 
     public static void solve(FastReader rc) throws IOException {
-        int n = rc.nextInt();
-        int[] a = new int[n];
-        int[] b = new int[n];
-        addDataIntoArray(rc, n, a);
-        addDataIntoArray(rc, n, b);
-        System.out.println(checkMinLength(n, a, b));
-        /*FastWriter fw = new FastWriter();
-        fw.println(checkMinLength(n, a, b));*/
+        System.out.println(postFix("3+4*8"));
     }
 
     private static void addDataIntoArray(FastReader rc, int n, int[] a) {
@@ -39,18 +32,46 @@ public class MinimumLength {
         }
     }
 
-    private static int checkMinLength(int n, int[] a, int[] b) {
-        int start = -1, end = -1;
-        for (int i = 0; i < n; i++) {
-            if (a[i] != b[i]) {
-                if (start == -1) {
-                    start = i;
-                } else {
-                    end = i;
+    private static String postFix(String exp) {
+        String output = new String();
+        Stack<Character> stack = new Stack<>();
+        for(int i = 0 ; i  < exp.length(); i++){
+            Character c = exp.charAt(i);
+            if(Character.isLetterOrDigit(c)){
+                output += c;
+            }else if(c == '('){
+                stack.push(c);
+            }else if(c == ')'){
+                while(!stack.isEmpty() &&
+                        stack.peek() != '('){
+                    output += stack.pop();
                 }
+                stack.pop();
+            }else{
+                while(!stack.isEmpty() && prec(c) <= prec(stack.peek())){
+                    output += stack.pop();
+                }
+                stack.push(c);
             }
         }
-        return end - start + 1;
+        while(!stack.isEmpty()){
+            output += stack.pop();
+        }
+        return output;
+    }
+
+    private static int prec(Character ch) {
+        switch(ch){
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            case '^':
+                return 3;
+        }
+        return -1;
     }
 
     private static int[][] convertListToArray(List<List<Integer>> ans) {
