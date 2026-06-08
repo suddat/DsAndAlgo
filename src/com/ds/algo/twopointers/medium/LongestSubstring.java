@@ -1,14 +1,14 @@
 package com.ds.algo.twopointers.medium;
-import com.sun.xml.internal.txw2.output.CharacterEscapeHandler;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.System.in;
-import static java.lang.System.out;
 
 public class LongestSubstring {
     static PrintWriter out = new PrintWriter((System.out));
@@ -24,16 +24,15 @@ public class LongestSubstring {
 
     public static void solve(FastReader rc) {
         String str = "abcdbabc";
-        int i = 0 , j = 0;
+        int j = 0;
         int n = str.length();
         int maxSize = 0;
         Set<Character> setSize = new HashSet<>();
-        while(j < n){
-            if(!setSize.add(str.charAt(j))){
+        while (j < n) {
+            if (!setSize.add(str.charAt(j))) {
                 maxSize = Math.max(setSize.size(), maxSize);
                 setSize.clear();
-                i=j;
-            }else{
+            } else {
                 j++;
             }
         }
@@ -95,6 +94,7 @@ public class LongestSubstring {
             return true;
         }
     }
+
     static class FastWriter {
         private final BufferedWriter bw;
 
